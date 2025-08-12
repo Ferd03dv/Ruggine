@@ -5,8 +5,10 @@ mod models;
 mod repositories;
 mod routes;
 mod server;
+mod controllers;
+mod services;
 
-use repositories::user_repository::get_all_users;  // o il path corretto
+use repositories::user_repository::get_all_users;
 
 
 use config::database::init_db;

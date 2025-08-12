@@ -26,3 +26,19 @@ pub async fn get_all_users(pool: &SqlitePool) -> Result<Vec<User>, sqlx::Error> 
         .fetch_all(pool)
         .await
 }
+
+// GET: User per username (per autenticazione)
+pub async fn get_user_by_username(pool: &SqlitePool, username: &str) -> Result<Option<User>, sqlx::Error> {
+    sqlx::query_as::<_, User>("SELECT * FROM user WHERE username = ?")
+        .bind(username)
+        .fetch_optional(pool)
+        .await
+}
+
+// GET: User per email (per controllo duplicati in registrazione)
+pub async fn get_user_by_email(pool: &SqlitePool, email: &str) -> Result<Option<User>, sqlx::Error> {
+    sqlx::query_as::<_, User>("SELECT * FROM user WHERE email = ?")
+        .bind(email)
+        .fetch_optional(pool)
+        .await
+}

@@ -94,3 +94,5 @@ pids
 
 # Local configuration files
 config.local.*
+
+*.o
