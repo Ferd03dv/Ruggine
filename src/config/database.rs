@@ -2,7 +2,7 @@ use sqlx::sqlite::SqlitePoolOptions;
 use sqlx::{Pool, Sqlite};
 use sqlx::SqlitePool;
 
-enum status {
+enum Status {
     Pending = 0,
     Accepted = 1,
     Rejected = 2,
