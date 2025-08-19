@@ -70,7 +70,7 @@ pids
 *.pid.lock
 
 # Database files (se non vuoi tracciare il database)
-# *.db
+*.db
 # *.sqlite
 # *.sqlite3
 
