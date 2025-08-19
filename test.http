@@ -1,0 +1,92 @@
+### Test API Endpoints for G45 Project
+
+# Base URL
+@baseUrl = http://127.0.0.1:8000
+
+### 1. Register a new user
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "testuser1",
+    "email": "testuser1@example.com",
+    "password": "password123"
+}
+
+### 2. Register another user
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "testuser2",
+    "email": "testuser2@example.com",
+    "password": "password456"
+}
+
+### 3. Login with first user
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "username": "testuser1",
+    "password": "password123"
+}
+
+### 4. Login with second user
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "username": "testuser2",
+    "password": "password456"
+}
+
+### 5. Try to login with wrong password
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "username": "testuser1",
+    "password": "wrongpassword"
+}
+
+### 6. Try to register with existing username
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "testuser1",
+    "email": "different@example.com",
+    "password": "password789"
+}
+
+### 7. Try to register with existing email
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "newuser",
+    "email": "testuser1@example.com",
+    "password": "password789"
+}
+
+### 8. Test with invalid JSON
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "invalid",
+    "email": "invalid-email",
+    "password": ""
+}
+
+### 9. Test server health (optional - if you add a health endpoint)
+# GET {{baseUrl}}/health
+
+### 10. Test with missing fields
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "incomplete"
+}

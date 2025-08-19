@@ -83,7 +83,7 @@ pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
     let app: Router = routes::build_router(db_pool.clone());
 
     // Indirizzo di bind (porta 8000)
-    let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
+    let addr = SocketAddr::from(([127, 0, 0, 1], 8000));
     println!("Server running on {}", addr);
 
     // Avvia server Axum
