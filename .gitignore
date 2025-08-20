@@ -96,3 +96,4 @@ pids
 config.local.*
 
 *.o
+server_log.txt

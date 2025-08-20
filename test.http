@@ -90,3 +90,41 @@ Content-Type: application/json
 {
     "username": "incomplete"
 }
+
+
+### MESSAGES TESTS
+### Send a message to group 1
+POST http://localhost:8000/groups/1/message
+Content-Type: application/json
+
+{
+    "content": "Hello everyone! This is a test message.",
+    "sender_id": 1
+}
+
+### Send another message to group 1
+POST http://localhost:8000/groups/1/message
+Content-Type: application/json
+
+{
+    "content": "How is everyone doing today?",
+    "sender_id": 2
+}
+
+### Send a message to group 2
+POST http://localhost:8000/groups/2/message
+Content-Type: application/json
+
+{
+    "content": "This is a message for group 2",
+    "sender_id": 1
+}
+
+### Get all messages from group 1
+GET http://localhost:8000/groups/1/messages
+
+### Get all messages from group 2
+GET http://localhost:8000/groups/2/messages
+
+### Get messages from non-existent group
+GET http://localhost:8000/groups/999/messages
