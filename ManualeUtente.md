@@ -5,8 +5,8 @@
 
 ## 1. Introduzione
 Il progetto **Ruggine** del Gruppo **G45** è un’applicazione web sviluppata in **Rust** per la gestione di utenti, gruppi e messaggi, con supporto ad autenticazione e logging.  
-Il sistema prevede un backend realizzato in Rust e un frontend in JavaScript/Node.js.
-L'applicazione è di tipo client/server e serve a gestire una chat di messaggi testuali. La chat deve inoltre prevedere la possibilità di creare gruppi di utenti per la condivisione di messaggi
+Il sistema prevede un backend realizzato in Rust e un frontend in JavaScript/Node.js e React.
+L'applicazione è di tipo client/server e serve a gestire una chat di messaggi testuali composta. La chat deve inoltre prevedere la possibilità di creare gruppi di utenti per la condivisione di messaggi
 
 ---
 
@@ -94,8 +94,7 @@ L'applicazione è di tipo client/server e serve a gestire una chat di messaggi t
     http://localhost:3000
 
 ### Funzionalità Principali
-- Autenticazione: Posso creare un nuovo account mediante il form di Registrazione ed effettuare il login con Username e Password.
-- Gestione Utenti: Registrazione, Login e Autenticazione.
+- Autenticazione e gestione utenti: Possibilità di creare un nuovo account mediante il form di Registrazione ed effettuare il login con Username e Password.
 - Messaggi: Invio e Ricezione di messaggi.
 - Gruppi: Creazione e Gestione di Gruppi.
 - Inviti: Inviare inviti agli altri utenti.
@@ -106,11 +105,14 @@ L'applicazione è di tipo client/server e serve a gestire una chat di messaggi t
 - package.json: Dipendenze del Frontend.
 
 ## 6. Esempio di Utilizzo delle API
-- Vedi file test.http
+Per esempi di utilizzo delle API, consultare il file [`test.http`](test.http).
 
 ## 7. Contatti
-- Autori: Donato Mangeruca, Loris Catalano, Marco Donatucci, Ferdinando ... 
-- Email: ... Opzionale
+- Autori:
+  - [Donato Mangeruca](https://github.com/DonatoMangeruca)
+  - [Loris Catalano](https://github.com/loris-catalano)
+  - [Marco Donatucci](https://github.com/marcodonatucci)
+  - [Ferdinando Del Vecchio](https://github.com/Ferd03dv)
 - Gruppo 45 - progetto Ruggine
 
 
