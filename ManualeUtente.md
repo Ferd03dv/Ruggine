@@ -13,13 +13,13 @@ L'applicazione è di tipo client/server e serve a gestire una chat di messaggi t
 ## 2. Requisiti di Sistema
 
 ### Software
-- **Rust** >= 1.85 (Rivedi perché)
+- **Rust** >= 1.85 (Rivedi perché!)
 - **Cargo** (incluso in Rust)  
 - **Node.js** >= 19.1.1
 - **npm** >= 11.5.2 (Controllato con npx npm --v) 
 
 ### Hardware
-## SW e HW presi da ChatGPT - RICONTROLLA
+## SW e HW da RICONTROLLARE
 - CPU: Dual core o superiore  
 - RAM: almeno 2 GB  
 - Spazio su disco: almeno 1.60 GB (Dimensione Progetto da Proprietà)
@@ -61,7 +61,7 @@ L'applicazione è di tipo client/server e serve a gestire una chat di messaggi t
 ### 3.1 Backend (Rust)
 1. Clonare il repository o estrarre l’archivio:
    ```bash
-   git clone <repo_url>
+   git clone https://github.com/PdS2425-C2/G45.git
    cd G45
 
 2. Compilare il Progetto
