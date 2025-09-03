@@ -3,6 +3,7 @@ use sqlx::SqlitePool;
 use std::{env, fs};
 use std::net::SocketAddr;
 use dotenv::dotenv;
+use tower_http::cors::{CorsLayer, Any};
 
 // crate dei repositories poi da rimuover!
 // Le query create NON verrano usate qui
@@ -80,7 +81,13 @@ pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
     */
 
     // Costruisci il router
-    let app: Router = routes::build_router(db_pool.clone());
+    let app: Router = routes::build_router(db_pool.clone())
+        .layer(
+            CorsLayer::new()
+                .allow_origin(Any)
+                .allow_methods(Any)
+                .allow_headers(Any)
+        );
 
     // Indirizzo di bind (porta 8000)
     let addr = SocketAddr::from(([127, 0, 0, 1], 8000));
