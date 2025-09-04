@@ -3,9 +3,9 @@ use crate::models::group::Group;
 use crate::models::group::UserGroup;
 
 // POST: Crea un gruppo
-pub async fn create_group(pool: &SqlitePool, name_group: &str, created_by: i64) -> Result<(), sqlx::Error> {
-    query("INSERT INTO groups (name_group, created_by) VALUES (?, ?)")
-        .bind(name_group)
+pub async fn create_group(pool: &SqlitePool, name: &str, created_by: i64) -> Result<(), sqlx::Error> {
+    query("INSERT INTO groups (name, created_by) VALUES (?, ?)")
+        .bind(name)
         .bind(created_by)
         .execute(pool)
         .await?;

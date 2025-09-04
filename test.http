@@ -128,3 +128,23 @@ GET http://localhost:8000/groups/2/messages
 
 ### Get messages from non-existent group
 GET http://localhost:8000/groups/999/messages
+
+### Creazione invito
+
+POST http://localhost:8000/invitations/invitation/create
+
+{
+  "status": 1,
+  "send_at": "2025-09-02T14:30:00",
+  "invited_by": 1,
+  "invited_user": 2,
+  "group_id": 1
+}
+
+### Accettazione invito
+POST http://localhost:8000/invitations/invitation/1/accept
+
+### Rifiuto invito
+POST http://localhost:8000/invitations/invitation/1/reject
+
+

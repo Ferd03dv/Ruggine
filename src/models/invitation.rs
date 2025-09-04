@@ -6,8 +6,8 @@ use chrono::NaiveDateTime;
 
 #[derive(Debug, FromRow)]
 pub struct Invitation {
-    pub i_id: i64,
-    pub status: i32, // Nelle query lo gestisco come enum!
+    pub i_id: Option<i64>,
+    pub status: i64, // Nelle query lo gestisco come enum!
     pub sent_at: NaiveDateTime,
     pub invited_by: i64,
     pub invited_user: i64,

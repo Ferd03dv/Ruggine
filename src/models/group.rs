@@ -1,7 +1,8 @@
+use serde::Serialize;
 use sqlx::FromRow;
 
 // Per ora accorpo User e UserGroup -> Spesso usati insieme
-#[derive(Debug, FromRow)]
+#[derive(Debug, FromRow, Serialize)]
 pub struct Group {
     pub g_id: i64,
     pub name: String,

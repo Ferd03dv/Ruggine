@@ -26,7 +26,7 @@ pub async fn init_db(db_url: &str) -> Result<Pool<Sqlite>, sqlx::Error> {
 
     CREATE TABLE IF NOT EXISTS groups (
         g_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name_group TEXT NOT NULL UNIQUE,
+        name TEXT NOT NULL UNIQUE,
         created_by INTEGER NOT NULL,
         FOREIGN KEY(created_by) REFERENCES user(u_id)
     );
