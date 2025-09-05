@@ -1,32 +1,21 @@
 use sqlx::{SqlitePool, query, query_as};
 use crate::models::group::Group;
-use crate::models::group::UserGroup;
 
-// POST: Crea un gruppo
-pub async fn create_group(pool: &SqlitePool, name: &str, created_by: i64) -> Result<(), sqlx::Error> {
-    query("INSERT INTO groups (name, created_by) VALUES (?, ?)")
+pub async fn create_group(pool: &SqlitePool, name: &str, created_by: i64) -> Result<i64, sqlx::Error> {
+    let res = query("INSERT INTO groups (name, created_by) VALUES (?, ?)")
         .bind(name)
         .bind(created_by)
         .execute(pool)
         .await?;
-    Ok(())
-}
 
-// POST: Inserimento in User_Group -> NON MI CONVINCE, MA PER ORA LA LASCIO!
-// DOVREI PASSARE da invitation???
-pub async fn invite_user_to_group(
-    pool: &SqlitePool,
-    user_id: i64,
-    group_id: i64,
-    is_admin: bool,
-) -> Result<(), sqlx::Error> {
-    query("INSERT INTO user_group (user_id, group_id, is_admin) VALUES (?, ?, ?)")
-        .bind(user_id)
+    let group_id = res.last_insert_rowid();
+
+    query("INSERT INTO user_group (user_id, group_id, is_admin) VALUES (?, ?, 1)")
+        .bind(created_by)
         .bind(group_id)
-        .bind(is_admin)
         .execute(pool)
         .await?;
-    Ok(())
+    Ok(group_id)
 }
 
 // GET: Restituisco tutti i gruppi di cui fa parte un utente!

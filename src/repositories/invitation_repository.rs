@@ -51,12 +51,29 @@ impl InvitationRepository {
         pool: &SqlitePool,
         invitation_id: i64,
     ) -> Result<(), sqlx::Error> {
+        // Aggiorna lo stato dell'invito
         sqlx::query(
             "UPDATE invitation SET status = 1 WHERE i_id = ?"
         )
         .bind(invitation_id)
         .execute(pool)
         .await?;
+
+        // Recupera i dati dell'invito
+        let row = sqlx::query("SELECT invited_user, group_id FROM invitation WHERE i_id = ?")
+            .bind(invitation_id)
+            .fetch_one(pool)
+            .await?;
+        let invited_user: i64 = row.get("invited_user");
+        let group_id: i64 = row.get("group_id");
+
+        // Inserisci la relazione in user_group con is_admin = 0
+        sqlx::query("INSERT INTO user_group (user_id, group_id, is_admin) VALUES (?, ?, 0)")
+            .bind(invited_user)
+            .bind(group_id)
+            .execute(pool)
+            .await?;
+
         Ok(())
     }
 
