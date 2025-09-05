@@ -90,4 +90,21 @@ impl InvitationRepository {
         .await?;
         Ok(())
     }
+
+    /// Ottieni tutti gli inviti pending di un utente
+    pub async fn get_user_invitations(
+        pool: &SqlitePool,
+        user_id: i64,
+    ) -> Result<Vec<Invitation>, sqlx::Error> {
+        let invitations = sqlx::query_as::<_, Invitation>(
+            "SELECT i_id, status, sent_at, invited_by, invited_user, group_id 
+             FROM invitation 
+             WHERE invited_user = ? AND status = 0"
+        )
+        .bind(user_id)
+        .fetch_all(pool)
+        .await?;
+        
+        Ok(invitations)
+    }
 }

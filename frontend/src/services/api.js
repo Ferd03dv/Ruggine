@@ -30,15 +30,64 @@ export const authService = {
   },
 };
 
+// Group Services
+export const groupService = {
+  async getUserGroups(userId) {
+    const response = await api.get(`/groups/user/${userId}`);
+    return response.data;
+  },
+
+  async createGroup(name, createdBy) {
+    const response = await api.post('/groups/create', {
+      name,
+      created_by: createdBy,
+    });
+    return response.data;
+  },
+};
+
+// Invitation Services
+export const invitationService = {
+  async createInvitation(invitedBy, invitedUser, groupId) {
+    const now = new Date();
+    const sentAt = now.toISOString().slice(0, 19); // Format: YYYY-MM-DDTHH:MM:SS
+
+    const response = await api.post('/invitations/invitation/create', {
+      i_id: null,
+      status: 0, // pending
+      sent_at: sentAt,
+      invited_by: invitedBy,
+      invited_user: invitedUser,
+      group_id: groupId,
+    });
+    return response.data;
+  },
+
+  async getUserInvitations(userId) {
+    const response = await api.get(`/invitations/user/${userId}`);
+    return response.data;
+  },
+
+  async acceptInvitation(invitationId) {
+    const response = await api.post(`/invitations/invitation/${invitationId}/accept`);
+    return response.data;
+  },
+
+  async rejectInvitation(invitationId) {
+    const response = await api.post(`/invitations/invitation/${invitationId}/reject`);
+    return response.data;
+  },
+};
+
 // Message Services
 export const messageService = {
   async getMessages(groupId) {
-    const response = await api.get(`/groups/${groupId}/messages`);
+    const response = await api.get(`/message/groups/${groupId}/messages`);
     return response.data;
   },
 
   async sendMessage(groupId, senderId, content) {
-    const response = await api.post(`/groups/${groupId}/message`, {
+    const response = await api.post(`/message/groups/${groupId}/message`, {
       content,
       sender_id: senderId,
     });

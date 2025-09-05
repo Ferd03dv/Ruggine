@@ -37,4 +37,8 @@ impl InvitationService {
     pub async fn reject_invitation(&self, invitation_id: i64) -> Result<(), sqlx::Error> {
         InvitationRepository::reject_invitation(&self.pool, invitation_id).await
     }
+
+    pub async fn get_user_invitations(&self, user_id: i64) -> Result<Vec<Invitation>, sqlx::Error> {
+        InvitationRepository::get_user_invitations(&self.pool, user_id).await
+    }
 }
