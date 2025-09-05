@@ -133,6 +133,7 @@ function Chat({ user, onLogout }) {
 
   return (
     <div className="chat-container">
+      {/* Header */}
       <div className="chat-header">
         <h3>Chat - {getCurrentGroupName()}</h3>
         <div className="user-info">
@@ -143,62 +144,123 @@ function Chat({ user, onLogout }) {
         </div>
       </div>
 
-      <div className="group-selector">
-        <div className="group-controls">
-          <label htmlFor="group-select">Seleziona Gruppo:</label>
-          <select 
-            id="group-select"
-            value={currentGroup || ''}
-            onChange={(e) => setCurrentGroup(parseInt(e.target.value))}
-          >
-            <option value="">Seleziona un gruppo</option>
-            {userGroups.map((group) => (
-              <option key={group.g_id} value={group.g_id}>
-                {group.name}
-              </option>
-            ))}
-          </select>
-          
-          <button 
-            onClick={() => setShowCreateGroup(true)}
-            className="action-btn"
-          >
-            Crea Gruppo
-          </button>
-          
-          {currentGroup && (
-            <button 
-              onClick={() => setShowInviteUser(true)}
-              className="action-btn"
-            >
-              Invita Utente
-            </button>
-          )}
-        </div>
-        
-        {currentGroup && getCurrentGroupInfo() && (
-          <div className="group-info">
-            <h4>Informazioni Gruppo</h4>
-            <div className="group-details">
-              <span><strong>Nome:</strong> {getCurrentGroupInfo().name}</span>
-              <span><strong>ID Gruppo:</strong> {getCurrentGroupInfo().g_id}</span>
-              <span><strong>Creato da:</strong> Utente ID {getCurrentGroupInfo().created_by}</span>
-              <span><strong>Membri totali:</strong> {userGroups.length > 0 ? 'Multipli utenti' : 'Solo tu'}</span>
+      {/* Main Content - Two Columns */}
+      <div className="main-content">
+        {/* Left Column - Groups and Invitations Management */}
+        <div className="left-column">
+          <div className="group-management-section">
+            <h4>Gestione Gruppi</h4>
+            <div className="group-controls">
+              <label htmlFor="group-select">Seleziona Gruppo:</label>
+              <select 
+                id="group-select"
+                value={currentGroup || ''}
+                onChange={(e) => setCurrentGroup(parseInt(e.target.value))}
+              >
+                <option value="">Seleziona un gruppo</option>
+                {userGroups.map((group) => (
+                  <option key={group.g_id} value={group.g_id}>
+                    {group.name}
+                  </option>
+                ))}
+              </select>
+              
+              <button 
+                onClick={() => setShowCreateGroup(true)}
+                className="action-btn"
+              >
+                Crea Gruppo
+              </button>
+              
+              {currentGroup && (
+                <button 
+                  onClick={() => setShowInviteUser(true)}
+                  className="action-btn"
+                >
+                  Invita Utente
+                </button>
+              )}
             </div>
+            
+            {currentGroup && getCurrentGroupInfo() && (
+              <div className="group-info">
+                <h5>Gruppo Attivo</h5>
+                <div className="group-details">
+                  <span><strong>Nome:</strong> {getCurrentGroupInfo().name}</span>
+                  <span><strong>ID:</strong> {getCurrentGroupInfo().g_id}</span>
+                  <span><strong>Creato da:</strong> Utente {getCurrentGroupInfo().created_by}</span>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+
+          <Invitations 
+            user={user} 
+            onInvitationUpdate={loadUserGroups}
+          />
+
+          <GroupManagement 
+            user={user}
+            userGroups={userGroups}
+            onGroupUpdate={loadUserGroups}
+          />
+        </div>
+
+        {/* Right Column - Chat */}
+        <div className="right-column">
+          <div className="chat-section">
+            <div className="messages-container">
+              <div className="messages-list">
+                {!currentGroup ? (
+                  <div className="no-messages">
+                    {userGroups.length === 0 ? 
+                      'Nessun gruppo disponibile. Crea il tuo primo gruppo!' :
+                      'Seleziona un gruppo per visualizzare i messaggi'
+                    }
+                  </div>
+                ) : messages.length === 0 ? (
+                  <div className="no-messages">
+                    Nessun messaggio in questo gruppo. Inizia la conversazione!
+                  </div>
+                ) : (
+                  messages.map((message) => (
+                    <div 
+                      key={message.m_id} 
+                      className={`message-item ${message.sender_id === user.user_id ? 'own' : 'other'}`}
+                    >
+                      <div className="message-header">
+                        <span className="sender">
+                          {message.sender_id === user.user_id ? 'Tu' : `Utente ${message.sender_id}`}
+                        </span>
+                        <span className="timestamp">
+                          {formatDate(message.sent_at)}
+                        </span>
+                      </div>
+                      <div className="message-content">
+                        {message.content}
+                      </div>
+                    </div>
+                  ))
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+            </div>
+
+            <form onSubmit={sendMessage} className="message-form">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder={currentGroup ? "Scrivi un messaggio..." : "Seleziona un gruppo per inviare messaggi"}
+                disabled={isLoading || !currentGroup}
+              />
+              <button type="submit" disabled={isLoading || !newMessage.trim() || !currentGroup}>
+                {isLoading ? 'Invio...' : 'Invia'}
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-
-      <Invitations 
-        user={user} 
-        onInvitationUpdate={loadUserGroups}
-      />
-
-      <GroupManagement 
-        user={user}
-        userGroups={userGroups}
-        onGroupUpdate={loadUserGroups}
-      />
 
       {/* Modal Crea Gruppo */}
       {showCreateGroup && (
@@ -257,56 +319,6 @@ function Chat({ user, onLogout }) {
           </div>
         </div>
       )}
-
-      <div className="messages-container">
-        <div className="messages-list">
-          {!currentGroup ? (
-            <div className="no-messages">
-              {userGroups.length === 0 ? 
-                'Nessun gruppo disponibile. Crea il tuo primo gruppo!' :
-                'Seleziona un gruppo per visualizzare i messaggi'
-              }
-            </div>
-          ) : messages.length === 0 ? (
-            <div className="no-messages">
-              Nessun messaggio in questo gruppo. Inizia la conversazione!
-            </div>
-          ) : (
-            messages.map((message) => (
-              <div 
-                key={message.m_id} 
-                className={`message-item ${message.sender_id === user.user_id ? 'own' : 'other'}`}
-              >
-                <div className="message-header">
-                  <span className="sender">
-                    {message.sender_id === user.user_id ? 'Tu' : `Utente ${message.sender_id}`}
-                  </span>
-                  <span className="timestamp">
-                    {formatDate(message.sent_at)}
-                  </span>
-                </div>
-                <div className="message-content">
-                  {message.content}
-                </div>
-              </div>
-            ))
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-      </div>
-
-      <form onSubmit={sendMessage} className="message-form">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder={currentGroup ? "Scrivi un messaggio..." : "Seleziona un gruppo per inviare messaggi"}
-          disabled={isLoading || !currentGroup}
-        />
-        <button type="submit" disabled={isLoading || !newMessage.trim() || !currentGroup}>
-          {isLoading ? 'Invio...' : 'Invia'}
-        </button>
-      </form>
     </div>
   );
 }
