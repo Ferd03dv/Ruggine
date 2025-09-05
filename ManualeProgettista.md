@@ -17,7 +17,23 @@ Il progetto è una **Applicazione Web** basata sull'architettura **client-server
 - **Database**: configurato tramite il file `.env`, che fornisce URL del Database e Porta di Ingresso, il Database è utilizzato per persistenza di utenti, gruppi e messaggi, mediante l'utilizzo di un file sviluppato con **SQLite**.
 
 ### Struttura delle cartelle principali
-- INSERISCI FOLDERS
+```
+/ (root)
+- data/
+- src/ (backend)
+  - config/
+  - controllers/
+  - models/
+  - repositories/
+  - routes/
+  - services/
+  - utils/
+- frontend/
+  - public/
+  - src/
+    - components/
+    - services/
+```
 
 
 ---
