@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
   padding: 20px;
 }
 
@@ -42,7 +42,7 @@
 }
 
 .tab-button.active {
-  background: #667eea;
+  background: #ff6b35;
   color: white;
 }
 
@@ -69,13 +69,13 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #ff6b35;
 }
 
 .login-form button[type="submit"] {
   width: 100%;
   padding: 12px;
-  background: #667eea;
+  background: #ff6b35;
   color: white;
   border: none;
   border-radius: 6px;
@@ -85,7 +85,7 @@
 }
 
 .login-form button[type="submit"]:hover:not(:disabled) {
-  background: #5a6fd8;
+  background: #e55a2b;
 }
 
 .login-form button[type="submit"]:disabled {

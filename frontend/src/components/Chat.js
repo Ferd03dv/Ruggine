@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { messageService, groupService, invitationService } from '../services/api';
+import { useUsernames, usePreloadUsernames } from '../hooks/useUsernames';
 import Invitations from './Invitations';
 import GroupManagement from './GroupManagement';
 import './Chat.css';
@@ -15,6 +16,16 @@ function Chat({ user, onLogout }) {
   const [newGroupName, setNewGroupName] = useState('');
   const [inviteUserId, setInviteUserId] = useState('');
   const messagesEndRef = useRef(null);
+
+  // Hook per gestire i nomi utente
+  const { getUsernameSync } = useUsernames();
+  
+  // Precarica i nomi utente dai messaggi e gruppi
+  const allUserIds = [
+    ...messages.map(msg => msg.sender_id),
+    ...userGroups.map(group => group.created_by)
+  ].filter(Boolean);
+  usePreloadUsernames(allUserIds);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -102,8 +113,7 @@ function Chat({ user, onLogout }) {
       await invitationService.createInvitation(user.user_id, parseInt(inviteUserId), currentGroup);
       setInviteUserId('');
       setShowInviteUser(false);
-      alert(`Invito inviato con successo all'utente ID: ${inviteUserId}! 
-      L'utente potrà accettare l'invito usando l'ID che riceverà.`);
+      alert(`Invito inviato con successo! L'utente riceverà una notifica dell'invito.`);
     } catch (error) {
       console.error('Errore invito utente:', error);
       console.error('Dettagli errore:', error.response?.data);
@@ -135,7 +145,7 @@ function Chat({ user, onLogout }) {
     <div className="chat-container">
       {/* Header */}
       <div className="chat-header">
-        <h3>Chat - {getCurrentGroupName()}</h3>
+        <h3>Ruggine - {getCurrentGroupName()}</h3>
         <div className="user-info">
           <span>Utente: {user.username} (ID: {user.user_id})</span>
           <button onClick={onLogout} className="logout-btn">
@@ -187,8 +197,6 @@ function Chat({ user, onLogout }) {
                 <h5>Gruppo Attivo</h5>
                 <div className="group-details">
                   <span><strong>Nome:</strong> {getCurrentGroupInfo().name}</span>
-                  <span><strong>ID:</strong> {getCurrentGroupInfo().g_id}</span>
-                  <span><strong>Creato da:</strong> Utente {getCurrentGroupInfo().created_by}</span>
                 </div>
               </div>
             )}
@@ -230,7 +238,7 @@ function Chat({ user, onLogout }) {
                     >
                       <div className="message-header">
                         <span className="sender">
-                          {message.sender_id === user.user_id ? 'Tu' : `Utente ${message.sender_id}`}
+                          {message.sender_id === user.user_id ? 'Tu' : getUsernameSync(message.sender_id)}
                         </span>
                         <span className="timestamp">
                           {formatDate(message.sent_at)}

@@ -9,7 +9,7 @@
 .toggle-groups-btn {
   width: 100%;
   padding: 15px 20px;
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, #CE422B, #F74C00);
   color: white;
   border: none;
   cursor: pointer;
@@ -22,7 +22,7 @@
 }
 
 .toggle-groups-btn:hover {
-  background: linear-gradient(135deg, #0056b3, #004085);
+  background: linear-gradient(135deg, #B73725, #E63900);
   transform: translateY(-1px);
 }
 

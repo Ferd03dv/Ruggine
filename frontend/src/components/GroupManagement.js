@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
+import { useUsernames, usePreloadUsernames } from '../hooks/useUsernames';
 import './GroupManagement.css';
 
 function GroupManagement({ user, userGroups, onGroupUpdate }) {
   const [showGroupList, setShowGroupList] = useState(false);
+
+  // Hook per gestire i nomi utente
+  const { getUsernameSync } = useUsernames();
+  
+  // Precarica i nomi utente dai creatori dei gruppi
+  const creatorIds = userGroups.map(group => group.created_by).filter(Boolean);
+  usePreloadUsernames(creatorIds);
 
   const getGroupsByRole = () => {
     const myGroups = userGroups.filter(group => group.created_by === user.user_id);
@@ -56,7 +64,7 @@ function GroupManagement({ user, userGroups, onGroupUpdate }) {
                     </div>
                     <div className="group-info">
                       <span>ID: {group.g_id}</span>
-                      <span>Creato da: Utente {group.created_by}</span>
+                      <span>Creato da: {getUsernameSync(group.created_by)}</span>
                     </div>
                   </div>
                 ))}

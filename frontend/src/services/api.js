@@ -30,6 +30,14 @@ export const authService = {
   },
 };
 
+// User Services
+export const userService = {
+  async getUserById(userId) {
+    const response = await api.get(`/users/user/${userId}`);
+    return response.data;
+  },
+};
+
 // Group Services
 export const groupService = {
   async getUserGroups(userId) {

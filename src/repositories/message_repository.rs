@@ -19,7 +19,7 @@ pub async fn send_message(
 
 // GET: Ottengo tutti i messaggi di un certo gruppo (in base all'id del gruppo che riceve come parametro)
 pub async fn get_messages_by_group(pool: &SqlitePool, group_id: i64) -> Result<Vec<Message>, sqlx::Error> {
-    sqlx::query_as::<_, Message>("SELECT * FROM message WHERE group_id = ? ORDER BY sent_at DESC")
+    sqlx::query_as::<_, Message>("SELECT * FROM message WHERE group_id = ? ORDER BY sent_at ASC")
         .bind(group_id)
         .fetch_all(pool)
         .await

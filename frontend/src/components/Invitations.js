@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { invitationService, groupService } from '../services/api';
+import { useUsernames, usePreloadUsernames } from '../hooks/useUsernames';
 import './Invitations.css';
 
 function Invitations({ user, onInvitationUpdate }) {
   const [invitations, setInvitations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [groups, setGroups] = useState({});
+
+  // Hook per gestire i nomi utente
+  const { getUsernameSync } = useUsernames();
+  
+  // Precarica i nomi utente dagli inviti
+  const inviterIds = invitations.map(inv => inv.invited_by).filter(Boolean);
+  usePreloadUsernames(inviterIds);
 
   const loadInvitations = async () => {
     try {
@@ -37,6 +45,14 @@ function Invitations({ user, onInvitationUpdate }) {
 
   useEffect(() => {
     loadInvitations();
+    
+    // Polling automatico per gli inviti ogni 5 secondi
+    const interval = setInterval(() => {
+      loadInvitations();
+    }, 5000);
+
+    // Cleanup dell'interval quando il componente viene smontato
+    return () => clearInterval(interval);
   }, [user.user_id]);
 
   const handleAcceptInvitation = async (invitationId) => {
@@ -100,7 +116,7 @@ function Invitations({ user, onInvitationUpdate }) {
                   {groups[invitation.group_id] || `Gruppo ${invitation.group_id}`}
                 </span>
                 <span className="invitation-from">
-                  Invitato da: Utente ID {invitation.invited_by}
+                  Invitato da: {getUsernameSync(invitation.invited_by)}
                 </span>
                 <span className="invitation-date">
                   Ricevuto: {formatDate(invitation.sent_at)}

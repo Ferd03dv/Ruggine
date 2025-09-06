@@ -6,7 +6,7 @@
 }
 
 .chat-header {
-  background: #667eea;
+  background: linear-gradient(135deg, #CE422B, #F74C00);
   color: white;
   padding: 20px;
   display: flex;
@@ -52,7 +52,7 @@
 
 /* Left Column - Groups and Invitations */
 .left-column {
-  width: 350px;
+  width: 420px;
   background: white;
   border-right: 1px solid #e9ecef;
   display: flex;
@@ -148,18 +148,18 @@
 
 .action-btn {
   padding: 8px 16px;
-  background: #28a745;
+  background: #CE422B;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background 0.3s ease;
   font-size: 14px;
+  transition: background 0.3s ease;
   white-space: nowrap;
 }
 
 .action-btn:hover {
-  background: #218838;
+  background: #B73725;
 }
 
 /* Modal Styles */
@@ -203,7 +203,7 @@
 
 .modal input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #ff6b35;
 }
 
 .modal-buttons {
@@ -222,12 +222,12 @@
 }
 
 .modal-buttons button[type="submit"] {
-  background: #667eea;
+  background: #CE422B;
   color: white;
 }
 
 .modal-buttons button[type="submit"]:hover {
-  background: #5a6fd8;
+  background: #B73725;
 }
 
 .modal-buttons button[type="button"] {
@@ -321,7 +321,7 @@
 
 .message-item.own {
   align-self: flex-end;
-  background: #667eea;
+  background: linear-gradient(135deg, #CE422B, #F74C00);
   color: white;
 }
 
@@ -367,12 +367,12 @@
 }
 
 .message-form input:focus {
-  border-color: #667eea;
+  border-color: #CE422B;
 }
 
 .message-form button {
   padding: 12px 24px;
-  background: #667eea;
+  background: #CE422B;
   color: white;
   border: none;
   border-radius: 25px;
@@ -383,7 +383,7 @@
 }
 
 .message-form button:hover:not(:disabled) {
-  background: #5a6fd8;
+  background: #B73725;
 }
 
 .message-form button:disabled {
