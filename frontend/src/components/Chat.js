@@ -240,6 +240,7 @@ function Chat({ user, onLogout }) {
                         <span className="sender">
                           {message.sender_id === user.user_id ? 'Tu' : getUsernameSync(message.sender_id)}
                         </span>
+                        {' '}
                         <span className="timestamp">
                           {formatDate(message.sent_at)}
                         </span>

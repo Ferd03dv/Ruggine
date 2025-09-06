@@ -333,11 +333,12 @@
 
 .message-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 5px;
   font-size: 0.85em;
   opacity: 0.8;
+  gap: 8px;
 }
 
 .message-content {

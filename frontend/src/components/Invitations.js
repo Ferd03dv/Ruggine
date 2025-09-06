@@ -15,9 +15,11 @@ function Invitations({ user, onInvitationUpdate }) {
   const inviterIds = invitations.map(inv => inv.invited_by).filter(Boolean);
   usePreloadUsernames(inviterIds);
 
-  const loadInvitations = async () => {
+  const loadInvitations = async (skipLoading = false) => {
     try {
-      setIsLoading(true);
+      if (!skipLoading) {
+        setIsLoading(true);
+      }
       const response = await invitationService.getUserInvitations(user.user_id);
       const userInvitations = response.invitations || response; // Supporta entrambi i formati
       setInvitations(userInvitations);
@@ -39,16 +41,18 @@ function Invitations({ user, onInvitationUpdate }) {
       console.error('Errore nel caricamento degli inviti:', error);
       setInvitations([]);
     } finally {
-      setIsLoading(false);
+      if (!skipLoading) {
+        setIsLoading(false);
+      }
     }
   };
 
   useEffect(() => {
-    loadInvitations();
+    loadInvitations(); // Caricamento iniziale con loading
     
     // Polling automatico per gli inviti ogni 5 secondi
     const interval = setInterval(() => {
-      loadInvitations();
+      loadInvitations(true); // skipLoading = true per evitare glitch
     }, 5000);
 
     // Cleanup dell'interval quando il componente viene smontato
@@ -58,7 +62,7 @@ function Invitations({ user, onInvitationUpdate }) {
   const handleAcceptInvitation = async (invitationId) => {
     try {
       await invitationService.acceptInvitation(invitationId);
-      loadInvitations(); // Ricarica la lista
+      loadInvitations(); // Ricarica la lista con loading visibile
       onInvitationUpdate(); // Notifica il componente padre per ricaricare i gruppi
       alert('Invito accettato con successo! I tuoi gruppi sono stati aggiornati.');
     } catch (error) {
@@ -70,7 +74,7 @@ function Invitations({ user, onInvitationUpdate }) {
   const handleRejectInvitation = async (invitationId) => {
     try {
       await invitationService.rejectInvitation(invitationId);
-      loadInvitations(); // Ricarica la lista
+      loadInvitations(); // Ricarica la lista con loading visibile
       alert('Invito rifiutato');
     } catch (error) {
       console.error('Errore nel rifiuto dell\'invito:', error);
