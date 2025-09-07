@@ -13,16 +13,15 @@ L'applicazione è di tipo client/server e serve a gestire una chat di messaggi t
 ## 2. Requisiti di Sistema
 
 ### Software
-- **Rust** >= 1.85 (Rivedi perché!)
+- **Rust** >= 1.85
 - **Cargo** (incluso in Rust)  
 - **Node.js** >= 19.1.1
-- **npm** >= 11.5.2 (Controllato con npx npm --v) 
+- **npm** >= 8.19.3
 
 ### Hardware
-## SW e HW da RICONTROLLARE
 - CPU: Dual core o superiore  
-- RAM: almeno 2 GB  
-- Spazio su disco: almeno 1.60 GB (Dimensione Progetto da Proprietà)
+- RAM: almeno 4 GB
+- Spazio su disco: almeno 2 GB 
 
 ### Dipendenze principali
 - Librerie Rust definite in `Cargo.toml`
@@ -42,11 +41,6 @@ L'applicazione è di tipo client/server e serve a gestire una chat di messaggi t
     - tower: Libreria di astrazioni per middleware e servizi 
     - bcrypt: implementa l'algoritmo di hashing bcrypt, usato per proteggere le password.
 - Dipendenze Node.js definite in `frontend/package.json`  
-    #### Controlla se usiamo i testing-...
-    - @testing-library/dom: Libreria per testare direttamente il DOM, per verificare gli elementi HTML e le interazioni senza React.
-    - @testing-library/jest-dom: estensioni per Jest che permettono assert più leggibili sul DOM, tipo expect(element).toBeVisible().
-    - @testing-library/react: libreria per testare componenti React come un utente reale.
-    - @testing-library/user-event: simula eventi utente (click, digitazione, selezione, ecc.) nei test React.
     - axios: client HTTP basato su Promise per comunicare con il backend (GET, POST, ecc.).
     - react: libreria principale per la realazzione della UI e dei componenti riutilizzabili.
     - react-dom: permette a React di interfacciarsi con il DOM del browser e renderizzare componenti.

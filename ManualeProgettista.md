@@ -129,7 +129,7 @@ Il progetto è una **Applicazione Web** basata sull'architettura **client-server
 
 ### 4.2 Struttura delle Cartelle (Frontend)
 #### public
-- Contiene al suo interno le Risorse Statiche e il file robots.txt, file per i crawler dei motiri di ricerca per definire qusli percorsi del sito possono essere indicizzati.
+- Contiene al suo interno le risorse statiche.
   - **L'ha messo marco? Eventualmente se di default tolgo la descrizione!**
 #### src
 - contiene al suo interno le cartelle **components**, **hooks** e **services**
