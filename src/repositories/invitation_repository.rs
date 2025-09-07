@@ -31,6 +31,21 @@ impl InvitationRepository {
         invited_user: i64,
         group_id: i64,
     ) -> Result<i64, sqlx::Error> {
+        if invited_by == invited_user {
+            return Err(sqlx::Error::Protocol("Non puoi invitare te stesso".into()));
+        }
+
+        let existing = sqlx::query(
+            "SELECT i_id FROM invitation WHERE invited_user = ? AND group_id = ? AND (status = 0)"
+        )
+        .bind(invited_user)
+        .bind(group_id)
+        .fetch_optional(pool)
+        .await?;
+        if existing.is_some() {
+            return Err(sqlx::Error::Protocol("Invito già presente".into()));
+        }
+
         let rec = sqlx::query(
             "INSERT INTO invitation (status, sent_at, invited_by, invited_user, group_id)
              VALUES (?, ?, ?, ?, ?)"
