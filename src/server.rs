@@ -21,7 +21,24 @@ pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
     // Ottieni la directory corrente
     // Leggi DATABASE_URL da .env oppure costruisci manualmente!
     let db_url = match env::var("DATABASE_URL") {
-        Ok(url) => url,
+        Ok(url) => {
+            // Controlla comunque che il file esista
+            if url.starts_with("sqlite:") {
+                if let Some(path) = url.strip_prefix("sqlite:") {
+                    let db_path = std::path::Path::new(path);
+                    if let Some(parent) = db_path.parent() {
+                        if !parent.exists() {
+                            fs::create_dir_all(parent)?;
+                        }
+                    }
+                    if !db_path.exists() {
+                        fs::File::create(db_path)?;
+                        println!("File creato: {:?}", db_path);
+                    }
+                }
+            }
+            url
+        },
         Err(_) => {
             // Se non esiste, costruisci come prima (fallback)
             let mut db_path = env::current_dir()?;

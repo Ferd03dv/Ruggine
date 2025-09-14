@@ -8,7 +8,7 @@ pub async fn send_message(
     sender_id: i64,
     content: &str,
 ) -> Result<i64, sqlx::Error> {
-    let result = sqlx::query("INSERT INTO message (group_id, sender_id, content, sent_at) VALUES (?, ?, ?, datetime('now'))")
+    let result = sqlx::query("INSERT INTO message (group_id, sender_id, content, sent_at) VALUES (?, ?, ?, datetime('now', 'localtime'))")
         .bind(group_id)
         .bind(sender_id)
         .bind(content)
